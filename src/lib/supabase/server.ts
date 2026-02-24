@@ -34,3 +34,8 @@ export function createClient() {
     }
   );
 }
+
+/**
+ * Backwards-compatible alias used by some pages/components.
+ */
+export const createServerSupabase = createClient;
