@@ -3,8 +3,8 @@ import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export function createClient() {
-  const cookieStore = cookies();
+export async function createClient() {
+  const cookieStore = await cookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,8 +26,7 @@ export function createClient() {
               cookieStore.set(name, value, options);
             });
           } catch {
-            // setAll can be called from a Server Component where cookies are read-only.
-            // In that case, ignore.
+            // In Server Components cookies can be read-only; ignore in that case.
           }
         },
       },
@@ -35,7 +34,5 @@ export function createClient() {
   );
 }
 
-/**
- * Backwards-compatible alias used by some pages/components.
- */
+// Backwards-compatible alias used by some pages/components:
 export const createServerSupabase = createClient;
